@@ -12,17 +12,15 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
   const { config, opts } = useBlogContext()
   const { posts } = collectPostsAndNavs({ config, opts })
   const router = useRouter()
-  const {
-    meta: { type }
-  } = opts
-  const tagName = type === 'tag' ? router.query.tag : null
+  const { meta } = opts
+  const tagName = meta.type === 'tag' ? router.query.tag : null
   const postList = posts.map(post => {
     if (tagName) {
       const tags = getTags(post)
       if (!Array.isArray(tagName) && !tags.includes(tagName)) {
         return null
       }
-    } else if (type === 'tag') {
+    } else if (meta.type === 'tag') {
       return null
     }
 
