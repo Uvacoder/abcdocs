@@ -3,7 +3,7 @@ import { Processor } from '@mdx-js/mdx/lib/core'
 import remarkGfm from 'remark-gfm'
 import rehypePrettyCode from 'rehype-pretty-code'
 import { rehypeMdxTitle } from 'rehype-mdx-title'
-import readingTime from "remark-reading-time";
+import readingTime from 'remark-reading-time'
 import { remarkStaticImage } from './mdx-plugins/static-image'
 import { remarkHeadings } from './mdx-plugins/remark'
 import { LoaderOptions, PageOpts, ReadingTime } from './types'
@@ -78,14 +78,14 @@ export async function compileMdx(
     const result = String(vFile)
       .replace('export const __nextra_title__', 'const __nextra_title__')
       .replace('export default MDXContent;', '')
-
+    const readingTime = vFile.data.readingTime as ReadingTime | undefined
     return {
       result,
       ...(compiler.data('headingMeta') as Pick<
         PageOpts,
         'headings' | 'hasJsxInH1'
       >),
-      readingTime: vFile.data.readingTime as ReadingTime | undefined,
+      ...(readingTime && { readingTime }),
       structurizedData
     }
   } catch (err) {
